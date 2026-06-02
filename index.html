@@ -157,10 +157,12 @@ h2{font-size:clamp(34px,4.7vw,74px);line-height:1.08;font-weight:900;letter-spac
 .proof-bottom{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:26px}.proof-stat{border-radius:24px;background:#f7fbff;padding:22px}.proof-stat small{display:block;color:var(--muted);font-size:13px;font-weight:900}.proof-stat strong{display:block;margin-top:8px;font-size:36px;color:var(--blue);font-weight:900}.proof-stat.hot strong{color:var(--hot)}
 .source{margin-top:18px;font-size:12px;line-height:1.45;color:var(--muted);font-weight:800}
 @keyframes fill32{to{width:60%}}@keyframes fill47{to{width:88%}}@keyframes fill53{to{width:100%}}
-.origin{height:calc(100vh - 18vh);display:grid;grid-template-columns:.88fr 1.12fr;gap:4vw;align-items:center}
-.origin-card{border-radius:34px;background:white;padding:22px;box-shadow:var(--shadow);border:1px solid var(--line);transform:rotate(.8deg)}
-.origin-card img{display:block;width:100%;height:430px;object-fit:contain;border-radius:24px;background:#fff}
-.prd-points{display:grid;gap:16px;margin-top:30px}.prd-point{border-radius:24px;background:white;padding:22px;border:1px solid var(--line);box-shadow:0 18px 48px -34px rgba(0,60,160,.45)}
+.origin{height:calc(100vh - 15vh);display:grid;grid-template-columns:.88fr 1.12fr;gap:3.2vw;align-items:center}
+.origin .kicker{margin-bottom:14px}.origin h2{font-size:clamp(34px,4.15vw,66px)}
+.origin .lead{margin-top:18px;font-size:clamp(16px,1.25vw,22px);line-height:1.48}
+.origin-card{border-radius:34px;background:white;padding:18px;box-shadow:var(--shadow);border:1px solid var(--line);transform:rotate(.5deg)}
+.origin-card img{display:block;width:100%;height:min(46vh,390px);object-fit:contain;border-radius:24px;background:#fff}
+.prd-points{display:grid;gap:12px;margin-top:20px}.prd-point{border-radius:22px;background:white;padding:18px 20px;border:1px solid var(--line);box-shadow:0 18px 48px -34px rgba(0,60,160,.45)}
 .prd-point b{display:block;font-size:21px;color:var(--blue)}.prd-point span{display:block;margin-top:8px;font-size:16px;line-height:1.45;color:var(--muted);font-weight:700}
 .build-flow{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:46px}
 .build-step{position:relative;border-radius:30px;background:white;padding:28px;min-height:300px;border:1px solid var(--line);box-shadow:var(--shadow);overflow:hidden}
@@ -226,7 +228,7 @@ h2{font-size:clamp(34px,4.7vw,74px);line-height:1.08;font-weight:900;letter-spac
     <div class="origin">
       <div>
         <div class="kicker">Where it started</div>
-        <h2>효돈은 먼저<br>기능이 아니라<br><span class="hl">가족의 사용 구조</span>로 설계했다</h2>
+        <h2>효돈은 먼저<br>기능이 아니라<br><span class="hl">가족의 사용 구조</span><br>로 설계했다</h2>
         <p class="lead">PRD에서 정의한 핵심은 “자유로운 용돈 생활, 고액 사기만 자녀가 든든하게”. 그래서 IA는 시니어, 자녀, B2B/B2G 확장까지 한 화면에서 연결되도록 출발했다.</p>
         <div class="prd-points">
           <div class="prd-point"><b>핵심 기능</b><span>금액별 차등 알림, 안심 지갑, 용돈 사용 리포트</span></div>
