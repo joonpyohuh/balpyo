@@ -102,12 +102,29 @@ h2{font-size:clamp(34px,4.7vw,74px);line-height:1.08;font-weight:900;letter-spac
 .metric{display:grid;gap:18px}
 .metric-card{border-radius:30px;background:white;padding:28px 32px;border:1px solid var(--line);box-shadow:var(--shadow)}
 .metric-card .label{font-size:17px;font-weight:800;color:var(--muted)}.metric-card .num{font-size:52px;font-weight:900;color:var(--blue);margin-top:6px}.metric-card .small{font-size:15px;font-weight:800;color:var(--muted);margin-top:8px}
-.chart{height:280px;border-radius:30px;background:white;padding:28px;box-shadow:var(--shadow);border:1px solid var(--line)}
-.linechart{position:relative;height:100%;border-bottom:3px solid #111827;border-left:0}
-.linechart::before{content:"";position:absolute;left:38px;right:50px;top:128px;height:3px;background:#111827;transform:rotate(-14deg);transform-origin:left center}
-.point{position:absolute;width:14px;height:14px;border-radius:50%;background:var(--blue);box-shadow:0 0 0 8px var(--blue3)}
-.p1{left:32px;top:138px}.p2{right:45px;top:78px}
-.label-a{position:absolute;left:8px;top:105px;font-size:22px;font-weight:900}.label-b{position:absolute;right:8px;top:25px;font-size:28px;font-weight:900;color:var(--hot)}
+.chart{height:330px;border-radius:30px;background:white;padding:26px 28px 24px;box-shadow:var(--shadow);border:1px solid var(--line)}
+.chart-head{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;margin-bottom:18px}
+.chart-title{font-size:18px;font-weight:900;color:var(--ink)}
+.legend{display:flex;gap:14px;align-items:center;color:var(--muted);font-size:13px;font-weight:900}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px}.legend .blue-dot{background:var(--blue)}.legend .hot-dot{background:var(--hot)}
+.linechart{position:relative;height:230px;padding:16px 24px 30px 44px;border-radius:24px;background:linear-gradient(180deg,#fbfdff,#f4f8ff)}
+.grid{position:absolute;left:44px;right:24px;height:1px;background:#dbe7f7}.g1{top:46px}.g2{top:102px}.g3{top:158px}
+.axis{position:absolute;left:44px;right:24px;bottom:30px;height:2px;background:#d8e2f0}.axis::before{content:"";position:absolute;left:0;bottom:0;width:2px;height:176px;background:#d8e2f0}
+.year{position:absolute;bottom:0;font-size:12px;font-weight:900;color:#8b95a1}.y1{left:44px}.y2{left:47%}.y3{right:24px}
+.linechart svg{position:absolute;left:44px;right:24px;top:28px;width:calc(100% - 68px);height:154px;overflow:visible}
+.data-line{fill:none;stroke-width:7;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:420;stroke-dashoffset:420;filter:drop-shadow(0 12px 14px rgba(0,100,255,.12))}
+.active .data-line{animation:drawLine 1s .25s ease forwards}
+.data-line.blue-line{stroke:var(--blue)}.data-line.hot-line{stroke:var(--hot);animation-delay:.52s}
+.chart-point{position:absolute;width:16px;height:16px;border-radius:50%;background:white;border:5px solid var(--blue);opacity:0;transform:scale(.3);box-shadow:0 0 0 8px rgba(0,100,255,.12)}
+.chart-point.hot-point{border-color:var(--hot);box-shadow:0 0 0 8px rgba(255,47,109,.12)}
+.active .chart-point{animation:popPoint .35s ease forwards}.active .p1{animation-delay:.35s}.active .p2{animation-delay:.9s}.active .p3{animation-delay:.62s}.active .p4{animation-delay:1.15s}
+.p1{left:58px;top:132px}.p2{left:calc(100% - 58px);top:70px}.p3{left:58px;top:112px}.p4{left:calc(100% - 58px);top:38px}
+.callout{position:absolute;border-radius:18px;background:white;padding:12px 14px;box-shadow:0 18px 42px -30px rgba(0,40,120,.5);font-weight:900;opacity:0;transform:translateY(8px)}
+.callout small{display:block;margin-bottom:4px;color:var(--muted);font-size:11px}.callout b{font-size:22px}.callout.blue-call b{color:var(--blue)}.callout.hot-call b{color:var(--hot)}
+.active .callout{animation:riseIn .4s ease forwards}.blue-call{right:26px;top:84px}.hot-call{right:26px;top:16px;animation-delay:1.25s}.active .blue-call{animation-delay:1.05s}.active .hot-call{animation-delay:1.32s}
+@keyframes drawLine{to{stroke-dashoffset:0}}
+@keyframes popPoint{to{opacity:1;transform:scale(1)}}
+@keyframes riseIn{to{opacity:1;transform:none}}
 .center-message{height:100%;display:grid;place-items:center;text-align:center}
 .center-message h2{font-size:clamp(42px,5.5vw,86px);max-width:980px}
 .choice{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:28px}
@@ -209,9 +226,21 @@ h2{font-size:clamp(34px,4.7vw,74px);line-height:1.08;font-weight:900;letter-spac
         </div>
         <div class="metric">
           <div class="chart">
+            <div class="chart-head">
+              <div class="chart-title">시니어 디지털 금융 경험 변화</div>
+              <div class="legend"><span><i class="blue-dot"></i>인증 부담</span><span><i class="hot-dot"></i>사기 불안</span></div>
+            </div>
             <div class="linechart">
-              <span class="point p1"></span><span class="point p2"></span>
-              <span class="label-a">인증 부담</span><span class="label-b">사기 불안 증가</span>
+              <span class="grid g1"></span><span class="grid g2"></span><span class="grid g3"></span><span class="axis"></span>
+              <svg viewBox="0 0 420 154" aria-hidden="true">
+                <path class="data-line blue-line" d="M8 124 C95 120 145 98 210 84 S330 72 412 58"></path>
+                <path class="data-line hot-line" d="M8 106 C88 95 142 72 204 60 S324 36 412 18"></path>
+              </svg>
+              <span class="chart-point p1"></span><span class="chart-point p2"></span>
+              <span class="chart-point hot-point p3"></span><span class="chart-point hot-point p4"></span>
+              <span class="callout blue-call"><small>2026 체감</small><b>높음</b></span>
+              <span class="callout hot-call"><small>위험 인식</small><b>급증</b></span>
+              <span class="year y1">2021</span><span class="year y2">2024</span><span class="year y3">2026</span>
             </div>
           </div>
           <div class="cards">
