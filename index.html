@@ -3,592 +3,459 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>효돈 Hyo-Don · 발표 자료</title>
+<title>효돈 Hyo-Don · Toss Blue Interactive Deck</title>
 <link rel="preconnect" href="https://cdn.jsdelivr.net">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@500;600;700;900&display=swap">
 <style>
-
 :root{
-  --bg:#EEF1F4;          /* 쿨 페이퍼 (옅은 블루그레이) */
-  --bg2:#E3E8ED;
-  --ink:#1B2530;         /* 깊은 슬레이트 잉크 */
-  --ink2:#3C4A57;
-  --muted:#74808C;
-  --faint:#A0AAB4;
-  --line:#D2DAE1;
-  --sage:#3E7CA6;        /* 신뢰·승인 — 스카이 블루 */
-  --sage-deep:#274C66;   /* 딥 슬레이트 블루 */
-  --sage-soft:#DCE9F2;   /* 옅은 하늘색 */
-  --rust:#C2683E;        /* 경고·이상거래 — 따뜻한 코랄 (블루 대비) */
-  --rust-soft:#F6E3D7;
-  --gold:#C79A3E;        /* 대기·주의 — 골드 */
-  --paper:#FBFCFD;       /* 거의 흰 쿨 페이퍼 */
-  --shadow:0 24px 60px -20px rgba(27,37,48,.28);
+  --blue:#0064ff;
+  --blue2:#3182f6;
+  --blue3:#e8f3ff;
+  --ink:#191f28;
+  --ink2:#333d4b;
+  --muted:#6b7684;
+  --line:#e5e8eb;
+  --bg:#f7f9fc;
+  --card:#ffffff;
+  --hot:#ff2f6d;
+  --green:#00b894;
+  --shadow:0 28px 80px -36px rgba(0,60,160,.45);
 }
-
-*{margin:0;padding:0;box-sizing:border-box}
-html,body{height:100%;background:#1a1813;overflow:hidden;font-family:'Pretendard',sans-serif}
-.serif{font-family:'Noto Serif KR',serif}
-
-/* ---- deck frame ---- */
-#deck{position:fixed;inset:0;display:flex;align-items:center;justify-content:center}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden;background:#101828;font-family:Pretendard,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--ink)}
+button{font:inherit}
+#deck{position:fixed;inset:0;background:var(--bg)}
 .slide{
-  position:absolute;width:100vw;height:100vh;
-  display:none;flex-direction:column;
-  background:var(--bg);color:var(--ink);
-  padding:6.2vh 7vw;
-  opacity:0;
+  position:absolute;inset:0;display:none;overflow:hidden;
+  padding:6vh 7vw;background:linear-gradient(180deg,#fbfdff 0%,#f3f7fb 100%);
 }
-.slide.active{display:flex;animation:slideIn .55s cubic-bezier(.2,.7,.2,1) forwards}
-@keyframes slideIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
-
-/* paper grain */
-.slide::after{
-  content:"";position:absolute;inset:0;pointer-events:none;opacity:.5;
-  background-image:radial-gradient(circle at 1px 1px, rgba(40,60,80,.05) 1px, transparent 0);
-  background-size:4px 4px;
+.slide.active{display:block;animation:enter .48s cubic-bezier(.2,.8,.2,1) both}
+@keyframes enter{from{opacity:0;transform:translateY(16px) scale(.992)}to{opacity:1;transform:none}}
+.slide::before{
+  content:"";position:absolute;inset:auto -12vw -28vh auto;width:58vw;height:58vw;border-radius:50%;
+  background:radial-gradient(circle,rgba(0,100,255,.16),rgba(0,100,255,0) 68%);
+  pointer-events:none;
 }
 .slide > *{position:relative;z-index:1}
-
-/* ---- shared bits ---- */
-.kicker{font-size:.78vw;letter-spacing:.32em;text-transform:uppercase;color:var(--sage);font-weight:800}
-.eyebrow{display:flex;align-items:center;gap:.7vw;font-size:.95vw;color:var(--muted);font-weight:600;margin-bottom:1.2vh}
-.eyebrow .bar{width:.28vw;height:2.2vh;background:var(--sage);border-radius:2px}
-.eyebrow b{color:var(--ink);font-weight:800}
-h1{font-family:'Noto Serif KR',serif;font-weight:900;line-height:1.08;letter-spacing:-.01em}
-h2{font-family:'Noto Serif KR',serif;font-weight:800;line-height:1.16;letter-spacing:-.01em;font-size:3.1vw;color:var(--ink)}
-.lead{font-size:1.32vw;line-height:1.65;color:var(--ink2);font-weight:500}
-.hl{color:var(--sage);font-weight:800}
-.hl-r{color:var(--rust);font-weight:800}
-.hl-g{color:var(--gold);font-weight:800}
-.mk{background:linear-gradient(transparent 58%, var(--sage-soft) 58%);padding:0 .15em;font-weight:800;color:var(--sage-deep)}
-.mk-r{background:linear-gradient(transparent 58%, var(--rust-soft) 58%);padding:0 .15em;font-weight:800;color:var(--rust)}
-
-/* footer */
-.foot{position:absolute;left:7vw;right:7vw;bottom:3.2vh;display:flex;justify-content:space-between;align-items:center;font-size:.72vw;color:var(--faint);letter-spacing:.04em;z-index:2}
-.foot b{color:var(--sage);font-weight:800}
-
-/* progress */
-#bar{position:fixed;top:0;left:0;height:3px;background:var(--sage);z-index:50;transition:width .4s ease}
-#hud{position:fixed;bottom:14px;right:18px;font-size:11px;color:var(--faint);font-weight:700;letter-spacing:.06em;z-index:50;font-family:'Pretendard'}
-
-/* ===== COVER ===== */
-.cover{background:var(--paper)}
-.cover .wrap{margin:auto 0}
-.cover .rule{width:3.2vw;height:3px;background:var(--sage);margin-bottom:3vh}
-.cover h1{font-size:9vw;color:var(--ink);margin:1vh 0 .4vh}
-.cover .latin{font-family:'Noto Serif KR',serif;font-size:1.6vw;letter-spacing:.5em;color:var(--muted);margin-bottom:4.5vh}
-.cover .tag{font-family:'Noto Serif KR',serif;font-size:2.1vw;line-height:1.5;color:var(--ink);font-weight:600;max-width:46vw}
-.cover .meta{position:absolute;left:7vw;bottom:6vh;font-size:.95vw;color:var(--muted)}
-.cover .meta b{color:var(--ink)}
-.cover .blob{position:absolute;right:-6vw;top:-6vw;width:42vw;height:42vw;border-radius:50%;
-  background:radial-gradient(circle at 40% 40%, rgba(62,124,166,.13), transparent 62%);z-index:0}
-
-/* generic title block */
-.head{margin-bottom:3.2vh}
-.head h2{margin-top:.6vh}
-
-/* stat cards row */
-.row3{display:flex;gap:1.6vw;margin-top:1vh}
-.scard{flex:1;background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:3vh 1.8vw;box-shadow:var(--shadow)}
-.scard .n{font-family:'Noto Serif KR',serif;font-weight:900;font-size:3.4vw;color:var(--sage);line-height:1}
-.scard .n .u{font-size:1.4vw;color:var(--muted);font-weight:700;margin-left:.2vw}
-.scard .lab{margin-top:1.4vh;font-size:1.02vw;font-weight:700;color:var(--ink)}
-.scard .sub{margin-top:.5vh;font-size:.82vw;color:var(--muted);line-height:1.5}
-
-/* transition slide */
-.turn{background:var(--sage-deep);color:#EDF3F8;align-items:center;justify-content:center;text-align:center}
-.turn::after{opacity:.18}
-.turn .big{font-family:'Noto Serif KR',serif;font-weight:800;font-size:3.4vw;line-height:1.4;max-width:62vw}
-.turn .big .u{background:linear-gradient(transparent 58%, rgba(199,154,62,.55) 58%);padding:0 .15em}
-.turn .small{font-size:1.1vw;color:#BBD0E0;letter-spacing:.2em;text-transform:uppercase;font-weight:700;margin-bottom:3vh}
-
-/* persona */
-.persona{display:flex;gap:1.6vw;margin-top:1vh}
-.pcard{flex:1;border-radius:16px;padding:2.6vh 1.6vw;border:1px solid var(--line);background:var(--paper)}
-.pcard.sr{background:var(--sage-soft);border-color:#C2D6E6}
-.pcard.ch{background:var(--rust-soft);border-color:#EAD4C6}
-.pcard .who{font-size:.8vw;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
-.pcard .nm{font-family:'Noto Serif KR',serif;font-weight:800;font-size:1.7vw;margin:.6vh 0 .2vh;color:var(--ink)}
-.pcard .age{font-size:.9vw;color:var(--muted);margin-bottom:1.6vh}
-.pcard .q{font-size:1.06vw;line-height:1.55;color:var(--ink2);font-weight:600;font-style:italic}
-.pcard .q::before{content:"“";color:var(--faint);font-size:1.6vw;font-family:'Noto Serif KR'}
-
-/* mechanic 3 branches */
-.branch{display:flex;gap:1.4vw;margin-top:2.2vh;align-items:stretch}
-.bcard{flex:1;border-radius:16px;padding:2.6vh 1.5vw;border:1.5px solid var(--line);background:var(--paper);
-  opacity:.28;transform:translateY(10px);transition:all .5s cubic-bezier(.2,.7,.2,1);display:flex;flex-direction:column}
-.bcard.show{opacity:1;transform:none}
-.bcard .ic{font-size:2vw;line-height:1}
-.bcard .t{font-family:'Noto Serif KR',serif;font-weight:800;font-size:1.4vw;margin:1.2vh 0 .8vh}
-.bcard .d{font-size:.92vw;line-height:1.55;color:var(--muted);flex:1}
-.bcard .res{margin-top:1.6vh;font-size:.86vw;font-weight:800;padding:.7vh 0;border-top:1px dashed var(--line)}
-.bcard.b1{border-color:#C2D6E6}.bcard.b1 .t{color:var(--sage-deep)}.bcard.b1 .res{color:var(--sage)}
-.bcard.b2{border-color:#E8D9B4}.bcard.b2 .t{color:var(--gold)}.bcard.b2 .res{color:var(--gold)}
-.bcard.b3{border-color:#EAD4C6;background:#FBF1EC}.bcard.b3 .t{color:var(--rust)}.bcard.b3 .res{color:var(--rust)}
-.hint{margin-top:2.4vh;font-size:.82vw;color:var(--faint);text-align:center;letter-spacing:.04em}
-
-/* ===== fraud climax (phones) ===== */
-.fraud{background:#161D24;color:#EDF3F8}
-.fraud::after{opacity:.12}
-.fraud .head h2{color:#EDF3F8}
-.fraud .eyebrow{color:#9FB3C4}.fraud .eyebrow b{color:#EDF3F8}.fraud .eyebrow .bar{background:var(--rust)}
-.stage{display:flex;gap:3vw;align-items:center;justify-content:center;margin-top:1vh;flex:1}
-.phone{width:17vw;border-radius:2.4vw;background:#0a1118;padding:.8vw;box-shadow:0 30px 70px -20px rgba(0,0,0,.7);position:relative}
-.phone .scr{background:#fff;border-radius:1.8vw;overflow:hidden;height:54vh;display:flex;flex-direction:column}
-.phone .notch{position:absolute;top:1.4vw;left:50%;transform:translateX(-50%);width:5vw;height:.9vw;background:#0a1118;border-radius:1vw;z-index:5}
-.phone .label{position:absolute;top:-3.4vh;left:50%;transform:translateX(-50%);font-size:.82vw;font-weight:800;letter-spacing:.1em;color:#9FB3C4;white-space:nowrap}
-/* senior screen */
-.sr-scr{padding:5vh 1.4vw 2vh;background:#fff;color:#1B2530}
-.sr-scr .bal-lab{font-size:.82vw;color:#74808C;font-weight:700}
-.sr-scr .amt{font-family:'Noto Serif KR';font-weight:900;font-size:2.6vw;margin:.4vh 0 .2vh;letter-spacing:-.02em}
-.sr-scr .mc{font-size:.92vw;color:#3C4A57;font-weight:700}
-.sr-scr .statusbox{margin-top:auto;border-radius:1vw;padding:1.8vh 1vw;text-align:center;font-weight:800;font-size:1.05vw;line-height:1.4}
-.sr-scr .waiting{background:#F3EAD2;color:#C79A3E}
-.sr-scr .declined{background:#F6E3D7;color:#C2683E}
-/* child screen */
-.ch-scr{padding:5vh 1.2vw 2vh;background:#EDF3F8;color:#1B2530}
-.ch-scr .topbar{display:flex;justify-content:space-between;align-items:center;font-size:.8vw;color:#74808C;font-weight:700;margin-bottom:1.6vh}
-.alertcard{background:#fff;border-radius:1.1vw;border:1.5px solid #EAD4C6;padding:1.6vh 1vw;box-shadow:0 10px 24px -12px rgba(27,37,48,.3)}
-.alertcard .warn{display:inline-block;background:#C2683E;color:#fff;font-size:.72vw;font-weight:800;padding:.3vh .6vw;border-radius:5px;letter-spacing:.05em}
-.alertcard .msg{font-size:.98vw;font-weight:700;line-height:1.45;margin:1.2vh 0 .4vh;color:#1B2530}
-.alertcard .det{font-size:.8vw;color:#74808C;margin-bottom:1.6vh}
-.alertcard .btns{display:flex;gap:.6vw}
-.alertcard .btn{flex:1;text-align:center;padding:1.1vh 0;border-radius:.8vw;font-weight:800;font-size:.92vw}
-.alertcard .ok{background:#DCE9F2;color:#3E7CA6}
-.alertcard .no{background:#C2683E;color:#fff}
-.fnote{text-align:center;margin-top:2vh;font-size:1.05vw;color:#A9BED0;font-weight:600}
-.fnote b{color:#fff}
-
-/* scenarios mini */
-.scn3{display:flex;gap:1.4vw;margin-top:1.5vh}
-.sc{flex:1;border-radius:14px;overflow:hidden;border:1px solid var(--line);background:var(--paper)}
-.sc h4{padding:1.4vh 1vw;color:#fff;font-size:1vw;font-weight:800}
-.sc.a h4{background:var(--sage)}.sc.b h4{background:var(--gold)}.sc.c h4{background:var(--rust)}
-.sc .body{padding:1.6vh 1vw;font-size:.88vw;line-height:1.55;color:var(--ink2)}
-.sc .body .amt{font-family:'Noto Serif KR';font-weight:800;font-size:1.5vw;color:var(--ink);display:block;margin-bottom:.6vh}
-.sc .body .out{margin-top:1.2vh;font-weight:800;font-size:.86vw}
-.sc.a .out{color:var(--sage)}.sc.b .out{color:var(--gold)}.sc.c .out{color:var(--rust)}
-
-/* features grid */
-.feat{display:grid;grid-template-columns:1fr 1fr;gap:1.4vw;margin-top:1vh}
-.fc{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:2.2vh 1.6vw;display:flex;gap:1vw}
-.fc .ico{font-size:1.8vw;line-height:1}
-.fc .t{font-weight:800;font-size:1.12vw;color:var(--ink);margin-bottom:.5vh}
-.fc .d{font-size:.88vw;color:var(--muted);line-height:1.5}
-.fc .p{font-size:.66vw;font-weight:800;color:#fff;background:var(--rust);border-radius:4px;padding:.1vh .5vw;vertical-align:middle;margin-left:.4vw}
-
-/* bmodel */
-.bm{display:flex;gap:1.4vw;margin-top:1vh}
-.bmc{flex:1;border-radius:14px;padding:2.4vh 1.4vw;color:#fff}
-.bmc.b2b{background:var(--sage-deep)}.bmc.b2c{background:var(--sage)}.bmc.b2g{background:var(--gold)}
-.bmc .tag{font-size:.78vw;font-weight:800;letter-spacing:.08em;opacity:.85}
-.bmc .ti{font-family:'Noto Serif KR';font-weight:800;font-size:1.4vw;margin:.8vh 0 1.4vh}
-.bmc ul{list-style:none}.bmc li{font-size:.86vw;line-height:1.7;padding-left:1vw;position:relative;opacity:.95}
-.bmc li::before{content:"";position:absolute;left:0;top:.85vh;width:.3vw;height:.3vw;background:#fff;border-radius:50%;opacity:.7}
-
-/* roadmap */
-.road{display:flex;gap:0;margin-top:3vh;align-items:flex-start;position:relative}
-.road::before{content:"";position:absolute;top:1.1vw;left:8%;right:8%;height:2px;background:var(--line)}
-.rp{flex:1;text-align:center;position:relative}
-.rp .dot{width:2.2vw;height:2.2vw;border-radius:50%;background:var(--paper);border:3px solid var(--sage);margin:0 auto;display:flex;align-items:center;justify-content:center;font-weight:900;color:var(--sage);font-size:.9vw;position:relative;z-index:2}
-.rp.v2 .dot{border-color:var(--gold);color:var(--gold)}
-.rp .ph{margin-top:1.4vh;font-weight:800;font-size:1.1vw;color:var(--ink)}
-.rp .when{font-size:.8vw;color:var(--muted);margin:.3vh 0 1.2vh}
-.rp .it{font-size:.84vw;color:var(--ink2);line-height:1.7}
-
-/* validation */
-.val{display:flex;gap:2.4vw;align-items:center;margin-top:1vh;flex:1}
-.donut{width:22vw;height:22vw;border-radius:50%;flex-shrink:0;
-  background:conic-gradient(var(--sage) 0 93%, var(--line) 93% 100%);
-  display:flex;align-items:center;justify-content:center;position:relative;box-shadow:var(--shadow)}
-.donut::before{content:"";position:absolute;width:13vw;height:13vw;background:var(--bg);border-radius:50%}
-.donut .v{position:relative;font-family:'Noto Serif KR';font-weight:900;font-size:4vw;color:var(--sage-deep)}
-.kpis{flex:1}
-.kpi{display:flex;justify-content:space-between;align-items:baseline;padding:1.8vh 0;border-bottom:1px solid var(--line)}
-.kpi .k{font-size:1.05vw;font-weight:700;color:var(--ink)}
-.kpi .v2{font-family:'Noto Serif KR';font-weight:800;font-size:1.6vw;color:var(--sage)}
-.kpi .sub{font-size:.78vw;color:var(--muted);font-weight:500}
-
-/* closing */
-.end{background:var(--sage-deep);color:#EDF3F8;align-items:center;justify-content:center;text-align:center}
-.end::after{opacity:.16}
-.end .rule{width:3vw;height:3px;background:#C79A3E;margin:0 auto 4vh}
-.end h1{font-size:6.5vw;color:#EDF3F8}
-.end .sub{font-family:'Noto Serif KR';font-size:1.7vw;color:#BBD0E0;margin-top:2.5vh;font-weight:500}
-.end .meta{position:absolute;bottom:6vh;font-size:.9vw;color:#9DB0C2;letter-spacing:.1em}
-
-/* nav arrows */
-.nav{position:fixed;bottom:14px;left:18px;display:flex;gap:8px;z-index:50}
-.nav button{width:30px;height:30px;border:none;border-radius:8px;background:rgba(62,124,166,.15);color:var(--sage-deep);font-size:14px;cursor:pointer;font-weight:800}
-.nav button:hover{background:rgba(62,124,166,.3)}
+.cover{
+  background:
+    radial-gradient(circle at 82% 22%,rgba(0,100,255,.22),transparent 34%),
+    linear-gradient(135deg,#f8fbff 0%,#edf6ff 52%,#ffffff 100%);
+}
+.blue{
+  background:
+    radial-gradient(circle at 80% 12%,rgba(255,255,255,.34),transparent 28%),
+    linear-gradient(135deg,#0052ff 0%,#1380ff 56%,#4cb3ff 100%);
+  color:white;
+}
+.blue::before{background:radial-gradient(circle,rgba(255,255,255,.25),rgba(255,255,255,0) 64%)}
+.dim{
+  background:linear-gradient(135deg,rgba(15,23,42,.86),rgba(0,55,140,.84)),var(--bg);
+  color:white;
+}
+.top{display:flex;justify-content:space-between;align-items:center;gap:2vw}
+.brand{display:flex;align-items:center;gap:10px;font-weight:900;color:var(--blue);letter-spacing:-.02em}
+.brand .mark{display:grid;place-items:center;width:36px;height:36px;border-radius:12px;background:var(--blue);color:white;box-shadow:0 12px 28px rgba(0,100,255,.25)}
+.blue .brand,.dim .brand{color:white}.blue .brand .mark,.dim .brand .mark{background:white;color:var(--blue)}
+.tag{font-size:14px;font-weight:800;color:var(--muted)}
+.blue .tag,.dim .tag{color:rgba(255,255,255,.76)}
+.hero{height:calc(100vh - 12vh);display:grid;grid-template-columns:1fr minmax(320px,42vw);align-items:center;gap:5vw}
+.copy{max-width:760px}
+.kicker{display:inline-flex;align-items:center;gap:8px;font-size:15px;font-weight:900;color:var(--blue);letter-spacing:.02em;margin-bottom:22px}
+.kicker::before{content:"";width:9px;height:9px;border-radius:50%;background:currentColor;box-shadow:0 0 0 7px rgba(0,100,255,.1)}
+.blue .kicker,.dim .kicker{color:white}.blue .kicker::before,.dim .kicker::before{box-shadow:0 0 0 7px rgba(255,255,255,.2)}
+h1{font-size:clamp(58px,8vw,132px);line-height:.95;font-weight:900;letter-spacing:0;color:var(--ink)}
+h2{font-size:clamp(34px,4.7vw,74px);line-height:1.08;font-weight:900;letter-spacing:0;color:var(--ink)}
+.blue h1,.blue h2,.dim h1,.dim h2{color:white}
+.lead{margin-top:26px;font-size:clamp(18px,1.55vw,28px);line-height:1.55;font-weight:700;color:var(--ink2)}
+.blue .lead,.dim .lead{color:rgba(255,255,255,.9)}
+.hl{color:var(--blue);white-space:nowrap}.hot{color:var(--hot);white-space:nowrap}.blue .hl,.dim .hl{color:white}.blue .hot,.dim .hot{color:#ffe66d}
+.screen-area{position:relative;min-height:520px}
+.phone{
+  position:absolute;width:250px;height:510px;border:12px solid #111827;border-radius:42px;background:#fff;
+  box-shadow:0 34px 70px -28px rgba(0,37,92,.6);overflow:hidden;
+}
+.phone::before{content:"";position:absolute;top:11px;left:50%;width:86px;height:25px;transform:translateX(-50%);border-radius:0 0 16px 16px;background:#111827;z-index:2}
+.phone.main{right:4vw;top:10px;transform:rotate(-9deg);background:linear-gradient(160deg,#0064ff,#46a6ff)}
+.phone.sub{right:0;top:110px;transform:translateX(110px) rotate(13deg) scale(.86)}
+.phone.third{right:19vw;top:210px;transform:rotate(8deg) scale(.82)}
+.app{height:100%;padding:52px 22px 24px;color:white}
+.app .mini{font-size:12px;font-weight:800;opacity:.8}.app .amt{margin-top:80px;font-size:38px;font-weight:900}.app .chip{display:inline-flex;margin-top:16px;padding:10px 14px;border-radius:999px;background:rgba(255,255,255,.18);font-weight:900}
+.sub .app,.third .app{color:var(--ink);background:white}.sub .app .chip,.third .app .chip{background:var(--blue3);color:var(--blue)}
+.section{height:100%;display:grid;grid-template-rows:auto 1fr;gap:4vh}
+.content{display:grid;grid-template-columns:1fr 1.08fr;gap:4vw;align-items:center}
+.cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px}
+.card{
+  min-height:190px;border-radius:28px;background:var(--card);padding:30px;box-shadow:var(--shadow);
+  border:1px solid rgba(229,232,235,.8);
+}
+.card h3{font-size:24px;line-height:1.25;font-weight:900;color:var(--ink)}
+.card p{margin-top:14px;font-size:17px;line-height:1.55;font-weight:700;color:var(--muted)}
+.icon{display:grid;place-items:center;width:54px;height:54px;border-radius:18px;background:var(--blue3);color:var(--blue);font-size:26px;font-weight:900;margin-bottom:20px}
+.metric{display:grid;gap:18px}
+.metric-card{border-radius:30px;background:white;padding:28px 32px;border:1px solid var(--line);box-shadow:var(--shadow)}
+.metric-card .label{font-size:17px;font-weight:800;color:var(--muted)}.metric-card .num{font-size:52px;font-weight:900;color:var(--blue);margin-top:6px}.metric-card .small{font-size:15px;font-weight:800;color:var(--muted);margin-top:8px}
+.chart{height:280px;border-radius:30px;background:white;padding:28px;box-shadow:var(--shadow);border:1px solid var(--line)}
+.linechart{position:relative;height:100%;border-bottom:3px solid #111827;border-left:0}
+.linechart::before{content:"";position:absolute;left:38px;right:50px;top:128px;height:3px;background:#111827;transform:rotate(-14deg);transform-origin:left center}
+.point{position:absolute;width:14px;height:14px;border-radius:50%;background:var(--blue);box-shadow:0 0 0 8px var(--blue3)}
+.p1{left:32px;top:138px}.p2{right:45px;top:78px}
+.label-a{position:absolute;left:8px;top:105px;font-size:22px;font-weight:900}.label-b{position:absolute;right:8px;top:25px;font-size:28px;font-weight:900;color:var(--hot)}
+.center-message{height:100%;display:grid;place-items:center;text-align:center}
+.center-message h2{font-size:clamp(42px,5.5vw,86px);max-width:980px}
+.choice{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:28px}
+.choice .person{border-radius:32px;background:white;padding:38px;min-height:360px;box-shadow:var(--shadow);border:1px solid var(--line)}
+.person .role{font-size:20px;font-weight:900;color:var(--blue)}.person .want{font-size:34px;line-height:1.18;font-weight:900;margin-top:18px}.person .desc{margin-top:18px;font-size:18px;line-height:1.5;font-weight:700;color:var(--muted)}
+.vs{display:grid;place-items:center;width:72px;height:72px;border-radius:50%;background:var(--blue);color:white;font-weight:900;box-shadow:0 18px 40px rgba(0,100,255,.24)}
+.flow{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;align-items:stretch}
+.step{position:relative;border-radius:30px;background:white;padding:30px;min-height:260px;border:1px solid var(--line);box-shadow:var(--shadow);opacity:.35;transform:translateY(20px);transition:.35s ease}
+.step.show{opacity:1;transform:none}
+.step .n{display:grid;place-items:center;width:42px;height:42px;border-radius:14px;background:var(--blue);color:white;font-weight:900;margin-bottom:22px}
+.step h3{font-size:27px;line-height:1.22;font-weight:900}.step p{margin-top:14px;color:var(--muted);font-size:17px;line-height:1.5;font-weight:700}
+.demo{display:grid;grid-template-columns:1fr 1fr;gap:30px;align-items:center}
+.alert{border-radius:34px;background:#111827;color:white;padding:34px;box-shadow:0 34px 80px -30px rgba(0,0,0,.55)}
+.alert .amount{font-size:58px;font-weight:900;margin:18px 0}.alert .meta{font-size:17px;line-height:1.5;color:rgba(255,255,255,.68);font-weight:700}
+.actions{display:flex;gap:14px;margin-top:28px}.actions button{border:0;border-radius:18px;padding:16px 22px;font-weight:900;color:white;background:#ef4444;cursor:pointer}.actions button.ok{background:var(--blue)}
+.status{border-radius:34px;background:white;padding:34px;box-shadow:var(--shadow);border:1px solid var(--line);min-height:310px;display:grid;align-content:center;text-align:center}
+.status .badge{display:inline-flex;justify-self:center;border-radius:999px;padding:10px 14px;background:var(--blue3);color:var(--blue);font-weight:900}.status .msg{font-size:36px;line-height:1.2;font-weight:900;margin-top:22px}.status .submsg{margin-top:14px;font-size:17px;line-height:1.45;color:var(--muted);font-weight:700}
+.status.declined .badge{background:#fff1f3;color:var(--hot)}.status.declined .msg{color:var(--hot)}
+.features{display:grid;grid-template-columns:repeat(5,1fr);gap:16px}.feature{border-radius:26px;background:white;padding:24px;min-height:210px;border:1px solid var(--line);box-shadow:0 18px 50px -34px rgba(0,60,160,.45)}.feature b{display:block;font-size:20px;line-height:1.28}.feature span{display:block;margin-top:12px;color:var(--muted);font-size:15px;line-height:1.42;font-weight:700}
+.revenue{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}.pillar{border-radius:34px;background:white;padding:34px;box-shadow:var(--shadow);border:1px solid var(--line);min-height:330px}.pillar .price{font-size:44px;font-weight:900;color:var(--blue);margin:30px 0 10px}.pillar h3{font-size:28px;font-weight:900}.pillar p{font-size:17px;line-height:1.5;color:var(--muted);font-weight:700;margin-top:14px}
+.timeline{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}.time{border-radius:28px;background:white;padding:26px;border:1px solid var(--line);box-shadow:var(--shadow)}.time b{color:var(--blue);font-size:18px}.time h3{font-size:26px;margin-top:16px}.time p{margin-top:12px;font-size:16px;line-height:1.48;color:var(--muted);font-weight:700}
+.kpis{display:grid;grid-template-columns:repeat(2,1fr);gap:22px}.kpi{border-radius:28px;background:white;padding:28px;border:1px solid var(--line);box-shadow:var(--shadow);display:flex;justify-content:space-between;gap:24px;align-items:center}.kpi b{font-size:24px}.kpi span{display:block;margin-top:8px;font-size:15px;color:var(--muted);font-weight:700}.kpi strong{font-size:44px;color:var(--blue)}
+.foot{position:absolute;left:7vw;right:7vw;bottom:3.2vh;display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:13px;font-weight:800}.blue .foot,.dim .foot{color:rgba(255,255,255,.68)}
+#bar{position:fixed;left:0;top:0;height:4px;background:linear-gradient(90deg,var(--blue),#7cc7ff);z-index:20;transition:width .35s ease}
+#hud{display:none}
+.nav{position:fixed;left:50%;bottom:16px;transform:translateX(-50%);z-index:25;display:flex;gap:10px}.nav button{width:42px;height:42px;border:0;border-radius:16px;background:rgba(255,255,255,.86);color:var(--blue);box-shadow:0 16px 40px -24px rgba(0,0,0,.45);font-size:20px;font-weight:900;cursor:pointer}.nav button:hover{background:white}
+.blue + #hud,.dim + #hud{color:white}
+@media (max-width:900px){
+  .slide{padding:4.8vh 5vw;overflow:auto}
+  html,body{overflow:auto}.hero,.content,.choice,.demo{grid-template-columns:1fr;height:auto}.screen-area{display:none}.cards,.features,.revenue,.timeline,.kpis,.flow{grid-template-columns:1fr}.foot,.nav,#hud{display:none}.slide{position:relative;min-height:100vh}
+  .top{justify-content:flex-start}.tag{display:none}
+  h1{font-size:56px}h2{font-size:38px}.lead{font-size:18px}.card{min-height:auto}
+}
 </style>
 </head>
 <body>
 <div id="bar"></div>
-<div id="deck">
+<main id="deck">
 
-  <!-- 1 COVER -->
   <section class="slide cover active">
-    <div class="blob"></div>
-    <div class="wrap">
-      <div class="rule"></div>
-      <div class="kicker">2026 · 학기제 프로젝트 발표</div>
-      <h1>효돈</h1>
-      <div class="latin">HYO-DON</div>
-      <div class="tag">소액은 <span class="hl">자유롭게</span>, 고액만 <span class="hl">자녀가</span>.<br>시니어의 일상은 지키고, 고액 사기는 가족이 막는<br>금액 기반 차등 승인 결제 서비스.</div>
+    <div class="top">
+      <div class="brand"><span class="mark">효</span> Hyo-Don</div>
+      <div class="tag">Interactive presentation · Toss style blue</div>
     </div>
-    <div class="meta">Team · <b>허준표 · 이서영 · 문수호</b> &nbsp;|&nbsp; 기프티콘이 아닌, 가족의 안심을 설계하다</div>
-    <div id="startHint" style="position:absolute;right:7vw;bottom:6vh;font-size:.82vw;color:var(--faint);text-align:right;line-height:1.7">
-      <b style="color:var(--sage)">F</b> 전체화면 · <b style="color:var(--sage)">→</b> 다음 · <b style="color:var(--sage)">←</b> 이전<br>화면 아무 곳이나 클릭해도 넘어갑니다
+    <div class="hero">
+      <div class="copy">
+        <div class="kicker">시니어 가족 금융 보호 서비스</div>
+        <h1>효돈</h1>
+        <p class="lead">소액은 자유롭게, 고액은 가족이 함께 확인하는 <span class="hl">차등 승인 금융 안전망</span>.</p>
+      </div>
+      <div class="screen-area">
+        <div class="phone third"><div class="app"><div class="mini">오늘의 결제</div><div class="amt">42,000원</div><span class="chip">자동 승인</span></div></div>
+        <div class="phone sub"><div class="app"><div class="mini">자녀 알림</div><div class="amt">2,000,000원</div><span class="chip">확인 필요</span></div></div>
+        <div class="phone main"><div class="app"><div class="mini">Hyo-Don</div><div class="amt">가족이<br>함께 지키는<br>돈</div><span class="chip">기준금액 10만원</span></div></div>
+      </div>
     </div>
+    <div class="foot"><span>Team 효돈</span><span>01 / 15</span></div>
   </section>
 
-  <!-- 2 PROBLEM stat -->
-  <section class="slide">
-    <div class="head">
-      <div class="eyebrow"><span class="bar"></span> 문제 정의 · <b>PROBLEM</b></div>
-      <h2>시니어는 매일, 두 개의 벽 앞에 선다</h2>
-    </div>
-    <p class="lead">디지털 금융은 빨라졌지만, 65세 이상 시니어에게는 <span class="hl">인증의 피로</span>와 <span class="hl-r">사기의 불안</span>이 동시에 쌓인다.</p>
-    <div class="row3">
-      <div class="scard">
-        <div class="n">63<span class="u">만명</span></div>
-        <div class="lab">60대 이상 보이스피싱 노출 위험군</div>
-        <div class="sub">고령층은 1인당 피해액이 가장 크고, 한번 당하면 회복이 어렵다.</div>
-      </div>
-      <div class="scard">
-        <div class="n">매번</div>
-        <div class="lab">반복되는 인증서·비밀번호 피로</div>
-        <div class="sub">"또 비밀번호를 까먹었다" — 일상 결제마다 자녀를 불러야 하는 현실.</div>
-      </div>
-      <div class="scard">
-        <div class="n">0<span class="u">개</span></div>
-        <div class="lab">"적당히" 지켜주는 선택지</div>
-        <div class="sub">기존 서비스는 전부 알림(간섭) 아니면 전부 차단(불편)의 이분법뿐.</div>
-      </div>
-    </div>
-    <div class="foot"><span>효돈 Hyo-Don</span><span><b>02</b> / 15</span></div>
-  </section>
-
-  <!-- 3 the gap -->
-  <section class="slide">
-    <div class="head">
-      <div class="eyebrow"><span class="bar"></span> 문제의 본질 · <b>THE GAP</b></div>
-      <h2>관리하면 자존감이 상하고,<br>놔두면 사기가 두렵다</h2>
-    </div>
-    <p class="lead" style="max-width:60vw">자녀는 부모를 지키고 싶지만 <span class="hl">간섭하는 자식</span>이 되긴 싫다.<br>부모는 안전하고 싶지만 <span class="hl">관리받는 노인</span>이 되긴 싫다.<br><br>두 마음이 부딪히는 그 지점에, 지금까지 <span class="mk-r">맞는 도구가 없었다.</span></p>
-    <div class="foot"><span>효돈 Hyo-Don</span><span><b>03</b> / 15</span></div>
-  </section>
-
-  <!-- 4 TURN -->
-  <section class="slide turn">
-    <div class="small">So we asked</div>
-    <div class="big">전부 알림도, 전부 차단도 아니라면 —<br><span class="u">금액을 기준으로 권한을 나누면</span> 어떨까?</div>
-  </section>
-
-  <!-- 5 PERSONA -->
-  <section class="slide">
-    <div class="head">
-      <div class="eyebrow"><span class="bar"></span> 누구를 위한 서비스인가 · <b>PERSONA</b></div>
-      <h2>두 사람의 마음을 동시에</h2>
-    </div>
-    <div class="persona">
-      <div class="pcard sr">
-        <div class="who">시니어 · 사용자</div>
-        <div class="nm">김순자</div>
-        <div class="age">72세 · 은퇴 주부 · 월 용돈 60만원</div>
-        <div class="q">마트에서 장볼 땐 그냥 찍으면 되고, 큰 돈은 딸이 확인해주면 안심이지.”</div>
-      </div>
-      <div class="pcard ch">
-        <div class="who">자녀 · 보호자</div>
-        <div class="nm">이지현</div>
-        <div class="age">42세 · IT 회사 과장 · 워킹맘</div>
-        <div class="q">큰 돈만 알려주고, 나머지는 엄마 마음대로 쓰시게 해드리고 싶어요.”</div>
-      </div>
-    </div>
-    <p class="lead" style="margin-top:2.6vh;font-size:1.15vw">두 사람이 원하는 건 결국 하나 — <span class="hl">큰 돈에서만 만나고, 나머지는 각자 자유롭게.</span></p>
-    <div class="foot"><span>효돈 Hyo-Don</span><span><b>05</b> / 15</span></div>
-  </section>
-
-  <!-- 6 PRODUCT reveal -->
-  <section class="slide" style="background:var(--paper)">
-    <div class="wrap" style="margin:auto 0">
-      <div class="kicker">SOLUTION</div>
-      <h1 style="font-size:6vw;color:var(--ink);margin:1.5vh 0 1vh">효돈</h1>
-      <p class="lead" style="font-size:1.6vw;max-width:52vw">자녀가 정해둔 <span class="hl">기준 금액</span>을 사이에 두고,<br>그 아래는 시니어가 자유롭게 — 그 위는 자녀가 함께.<br><br><span class="serif" style="font-weight:700;color:var(--sage-deep)">하나의 기준선이, 자유와 안전을 동시에 만든다.</span></p>
-    </div>
-    <div class="foot"><span>효돈 Hyo-Don</span><span><b>06</b> / 15</span></div>
-  </section>
-
-  <!-- 7 CORE MECHANIC (animated) -->
-  <section class="slide" id="mech">
-    <div class="head">
-      <div class="eyebrow"><span class="bar"></span> 핵심 메커니즘 · <b>HOW IT WORKS</b></div>
-      <h2>결제 한 번이, 세 갈래로 갈린다</h2>
-    </div>
-    <p class="lead" style="font-size:1.15vw">기준 금액(기본 <span class="hl">100,000원</span>)을 넘느냐, 위험 신호가 있느냐 — 단 두 가지로 판정한다.</p>
-    <div class="branch">
-      <div class="bcard b1" data-step="1">
-        <div class="ic">🛒</div>
-        <div class="t">소액 — 즉시 통과</div>
-        <div class="d">금액이 기준 미만이면 인증도, 자녀 알림도 없이 바로 결제. 자녀에게는 아무 알림도 가지 않는다.</div>
-        <div class="res">→ 일상의 자유 · 사생활 보호</div>
-      </div>
-      <div class="bcard b2" data-step="2">
-        <div class="ic">⏳</div>
-        <div class="t">고액 — 자녀 승인</div>
-        <div class="d">기준 이상이면 시니어는 "확인 중" 대기, 자녀 폰에 승인 요청이 도착해 1분 내 승인·거절.</div>
-        <div class="res">→ 실수 방지 · 함께 결정</div>
-      </div>
-      <div class="bcard b3" data-step="3">
-        <div class="ic">⚠️</div>
-        <div class="t">이상 거래 — 경고 차단</div>
-        <div class="d">고액 + 위험 패턴(ATM 고액 송금·심야 거래 등)이면 긴급 알림으로 즉시 차단할 수 있다.</div>
-        <div class="res">→ 사기 사전 차단</div>
-      </div>
-    </div>
-    <div class="hint">→ 키를 눌러 하나씩 펼쳐보세요</div>
-    <div class="foot"><span>효돈 Hyo-Don</span><span><b>07</b> / 15</span></div>
-  </section>
-
-  <!-- 8 FRAUD CLIMAX -->
-  <section class="slide fraud" id="fraud">
-    <div class="head">
-      <div class="eyebrow"><span class="bar"></span> 가장 중요한 순간 · <b>THE MOMENT</b></div>
-      <h2 style="font-size:2.7vw">"검찰입니다. 지금 계좌가 위험합니다."</h2>
-    </div>
-    <div class="stage">
-      <div class="phone">
-        <div class="label">시니어 · 김순자</div>
-        <div class="notch"></div>
-        <div class="scr sr-scr" id="srScr">
-          <div class="bal-lab">ATM 계좌이체</div>
-          <div class="amt" id="srAmt">2,000,000원</div>
-          <div class="mc">○○은행으로 송금 요청</div>
-          <div class="statusbox waiting" id="srStatus">자녀 확인 중입니다.<br>잠시만 기다려주세요.</div>
+  <section class="slide blue">
+    <div class="section">
+      <div class="top"><div class="brand"><span class="mark">1</span> Problem</div><div class="tag">시니어의 결제 경험</div></div>
+      <div class="content">
+        <div>
+          <div class="kicker">두 개의 벽</div>
+          <h2>시니어는 매일,<br>인증 피로와 사기 불안 앞에 선다</h2>
+        </div>
+        <div class="cards">
+          <div class="card"><div class="icon">!</div><h3>인증은 어렵고 반복된다</h3><p>비밀번호, 앱 인증, 보안 절차가 일상 결제마다 부담이 된다.</p></div>
+          <div class="card"><div class="icon">₩</div><h3>피해는 크고 회복은 느리다</h3><p>보이스피싱과 고액 이체 사고는 한 번만 일어나도 치명적이다.</p></div>
         </div>
       </div>
-      <div class="phone">
-        <div class="label">자녀 · 이지현</div>
-        <div class="notch"></div>
-        <div class="scr ch-scr">
-          <div class="topbar"><span>효돈 보호자</span><span>지금</span></div>
-          <div class="alertcard">
-            <span class="warn">⚠ 이상 거래 의심</span>
-            <div class="msg">어머니가 ATM에서<br>2,000,000원 송금을 시도합니다.</div>
-            <div class="det">평소 패턴과 다른 고액 ATM 이체입니다.</div>
-            <div class="btns">
-              <div class="btn ok">승인</div>
-              <div class="btn no" id="rejectBtn">거절</div>
+    </div>
+    <div class="foot"><span>Problem</span><span>02 / 15</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="section">
+      <div class="top"><div class="brand"><span class="mark">R</span> Research</div><div class="tag">데이터로 보는 부담</div></div>
+      <div class="content">
+        <div>
+          <div class="kicker">Research</div>
+          <h2>고령층 금융사기는<br><span class="hl">작은 실수</span>가 아니라<br>가족 전체의 리스크다</h2>
+          <p class="lead">기존 서비스는 전부 알림 또는 전부 차단에 가깝다. 하지만 가족이 원하는 건 더 섬세한 기준이다.</p>
+        </div>
+        <div class="metric">
+          <div class="chart">
+            <div class="linechart">
+              <span class="point p1"></span><span class="point p2"></span>
+              <span class="label-a">인증 부담</span><span class="label-b">사기 불안 증가</span>
             </div>
+          </div>
+          <div class="cards">
+            <div class="metric-card"><div class="label">시니어</div><div class="num">자유</div><div class="small">관리받는 느낌은 줄인다</div></div>
+            <div class="metric-card"><div class="label">자녀</div><div class="num">안심</div><div class="small">큰돈만 함께 확인한다</div></div>
           </div>
         </div>
       </div>
     </div>
-    <div class="fnote" id="fnote">→ 자녀가 <b>[거절]</b>을 누르는 순간, 200만 원이 지켜진다</div>
-    <div class="foot" style="color:#8294a4"><span style="color:#8294a4">효돈 Hyo-Don</span><span style="color:#8294a4"><b style="color:var(--gold)">08</b> / 15</span></div>
+    <div class="foot"><span>Research</span><span>03 / 15</span></div>
   </section>
 
-  <!-- 9 SCENARIOS -->
-  <section class="slide">
-    <div class="head">
-      <div class="eyebrow"><span class="bar"></span> 작동 시나리오 · <b>SCENARIOS</b></div>
-      <h2>같은 결제, 다른 결말</h2>
+  <section class="slide dim">
+    <div class="center-message">
+      <h2>관리하면 자존감이 상하고,<br>놔두면 사기가 두렵다</h2>
     </div>
-    <div class="scn3">
-      <div class="sc a">
-        <h4>① 소액 결제</h4>
-        <div class="body"><span class="amt">35,000원</span>행복마트에서 장보기. 기준 미만이라 자녀 알림 없이 즉시 결제 완료.<div class="out">→ 즉시 통과 · 자녀에게 알림 없음</div></div>
-      </div>
-      <div class="sc b">
-        <h4>② 고액 결제</h4>
-        <div class="body"><span class="amt">380,000원</span>○○건강식품 결제. 자녀 폰으로 승인 요청 → [승인] → 정상 처리.<div class="out">→ 자녀 승인 후 결제 완료</div></div>
-      </div>
-      <div class="sc c">
-        <h4>③ 보이스피싱</h4>
-        <div class="body"><span class="amt">2,000,000원</span>ATM 고액 송금 시도. 이상 거래 감지 → 긴급 알림 → [거절].<div class="out">→ ⚠ 사기 사전 차단</div></div>
-      </div>
-    </div>
-    <p class="lead" style="margin-top:2.6vh;font-size:1.1vw">거절돼도 시니어 화면엔 <span class="mk">"거래가 처리되지 않았어요"</span> — 자존감이 상하지 않는 중립적 문구로.</p>
-    <div class="foot"><span>효돈 Hyo-Don</span><span><b>09</b> / 15</span></div>
+    <div class="foot"><span>Insight</span><span>04 / 15</span></div>
   </section>
 
-  <!-- 10 FEATURES -->
   <section class="slide">
-    <div class="head">
-      <div class="eyebrow"><span class="bar"></span> 핵심 기능 · <b>FEATURES</b></div>
-      <h2>안심을 만드는 다섯 가지</h2>
-    </div>
-    <div class="feat">
-      <div class="fc"><div class="ico">⚖️</div><div><div class="t">금액별 차등 알림<span class="p">P0</span></div><div class="d">기준 금액으로 소액 자동 통과 / 고액만 실시간 승인. 효돈의 심장.</div></div></div>
-      <div class="fc"><div class="ico">👛</div><div><div class="t">안심 지갑<span class="p">P0</span></div><div class="d">자녀가 충전한 잔액에서 시니어가 원터치 결제. 한도·자동충전 설정.</div></div></div>
-      <div class="fc"><div class="ico">🔠</div><div><div class="t">시니어 전용 UI<span class="p">P0</span></div><div class="d">큰 글씨·고대비·버튼 3개 이하·음성 안내. 결제 전 "맞으신가요?" 확인.</div></div></div>
-      <div class="fc"><div class="ico">🛡️</div><div><div class="t">긴급 카드 제어<span class="p">P0</span></div><div class="d">자녀가 원격으로 카드 즉시 일시정지. 의심 거래 시 자동 잠금.</div></div></div>
-      <div class="fc" style="grid-column:1 / -1"><div class="ico">📊</div><div><div class="t">용돈 사용 리포트 <span class="p" style="background:var(--gold)">P1</span></div><div class="d">카테고리별 지출 요약 + 활동 단절 감지. 3일 이상 결제 없으면 자녀에게 안심 확인 알림 — 건강·생활 패턴까지 간접 확인.</div></div></div>
-    </div>
-    <div class="foot"><span>효돈 Hyo-Don</span><span><b>10</b> / 15</span></div>
-  </section>
-
-  <!-- 11 BUSINESS MODEL -->
-  <section class="slide">
-    <div class="head">
-      <div class="eyebrow"><span class="bar"></span> 비즈니스 모델 · <b>BUSINESS</b></div>
-      <h2>세 개의 수익 기둥</h2>
-    </div>
-    <div class="bm">
-      <div class="bmc b2c">
-        <div class="tag">B2C · 자체 서비스</div>
-        <div class="ti">효돈 카드 &amp; 구독</div>
-        <ul><li>안심 카드 결제 수수료</li><li>리포트+ 프리미엄 월 4,900원</li><li>시니어 커머스 연동</li></ul>
-      </div>
-      <div class="bmc b2b">
-        <div class="tag">B2B · 전략적 핵심</div>
-        <div class="ti">가족 승인 API</div>
-        <ul><li>은행·카드사에 모듈 납품</li><li>월 정액 + 호출 건당 과금</li><li>화이트라벨 SDK 제공</li></ul>
-      </div>
-      <div class="bmc b2g">
-        <div class="tag">B2G · 공공 인프라</div>
-        <div class="ti">지자체 연동</div>
-        <ul><li>디지털 바우처 결제 연동</li><li>독거 어르신 활동 감지</li><li>공공 시스템 구축 용역</li></ul>
+    <div class="section">
+      <div class="top"><div class="brand"><span class="mark">Q</span> Core Question</div><div class="tag">서비스의 출발점</div></div>
+      <div class="center-message">
+        <h2>전부 알림도, 전부 차단도 아니라면<br><span class="hl">금액을 기준으로 권한을 나누면</span> 어떨까?</h2>
       </div>
     </div>
-    <p class="lead" style="margin-top:2.6vh;font-size:1.1vw">B2C로 신뢰를 쌓고, <span class="hl">B2B 가족 승인 API</span>로 확장한다 — 효돈의 차등 승인은 그 자체로 팔리는 모듈이다.</p>
-    <div class="foot"><span>효돈 Hyo-Don</span><span><b>11</b> / 15</span></div>
+    <div class="foot"><span>Question</span><span>05 / 15</span></div>
   </section>
 
-  <!-- 12 ROADMAP -->
   <section class="slide">
-    <div class="head">
-      <div class="eyebrow"><span class="bar"></span> 로드맵 · <b>ROADMAP</b></div>
-      <h2>가설에서 계약까지</h2>
+    <div class="section">
+      <div class="top"><div class="brand"><span class="mark">2</span> User Fit</div><div class="tag">두 사람의 마음</div></div>
+      <div class="choice">
+        <div class="person"><div class="role">부모</div><div class="want">내 돈은<br>내가 쓰고 싶다</div><div class="desc">일상 결제까지 자녀에게 허락받고 싶지는 않다.</div></div>
+        <div class="vs">같이</div>
+        <div class="person"><div class="role">자녀</div><div class="want">큰 위험은<br>막아주고 싶다</div><div class="desc">감시하는 자식이 아니라, 필요할 때만 곁에 있고 싶다.</div></div>
+      </div>
+      <p class="lead">두 사람이 원하는 건 하나다. <span class="hl">큰 돈에서만 만나고, 나머지는 각자 자유롭게.</span></p>
     </div>
-    <div class="road">
-      <div class="rp"><div class="dot">M</div><div class="ph">MVP</div><div class="when">2026 Q2–Q3</div><div class="it">차등 알림 엔진<br>자녀 승인 푸시<br>원터치 결제 UI<br><b>파일럿 50가구</b></div></div>
-      <div class="rp"><div class="dot">1</div><div class="ph">v1.0</div><div class="when">2026 Q4</div><div class="it">용돈 리포트<br>이상 거래 감지<br>안심 카드 발급<br><b>B2C 1,000가구</b></div></div>
-      <div class="rp v2"><div class="dot">2</div><div class="ph">v2.0</div><div class="when">2027 H1</div><div class="it">가족 연동 API (B2B)<br>지자체 바우처 (B2G)<br>AI 임계값 추천<br><b>은행·지자체 각 1곳</b></div></div>
-    </div>
-    <div class="foot"><span>효돈 Hyo-Don</span><span><b>12</b> / 15</span></div>
+    <div class="foot"><span>User Fit</span><span>06 / 15</span></div>
   </section>
 
-  <!-- 13 VALIDATION -->
-  <section class="slide">
-    <div class="head">
-      <div class="eyebrow"><span class="bar"></span> 목표 지표 · <b>VALIDATION &amp; KPI</b></div>
-      <h2>무엇으로 성공을 말할까</h2>
+  <section class="slide blue">
+    <div class="hero">
+      <div class="copy">
+        <div class="kicker">Solution</div>
+        <h1>효돈</h1>
+        <p class="lead">자녀가 정해둔 기준 금액을 사이에 두고, 그 아래는 시니어가 자유롭게. 그 위는 가족이 함께 확인한다.</p>
+      </div>
+      <div class="screen-area">
+        <div class="phone main"><div class="app"><div class="mini">기준금액</div><div class="amt">100,000원</div><span class="chip">넘으면 가족 승인</span></div></div>
+        <div class="phone sub"><div class="app"><div class="mini">안전 상태</div><div class="amt">자유 결제</div><span class="chip">10만원 이하</span></div></div>
+      </div>
     </div>
-    <div class="val">
-      <div class="donut"><span class="v">90%</span></div>
+    <div class="foot"><span>Solution</span><span>07 / 15</span></div>
+  </section>
+
+  <section class="slide" id="flow">
+    <div class="section">
+      <div class="top"><div class="brand"><span class="mark">3</span> How it Works</div><div class="tag">클릭하거나 Space를 눌러 단계 보기</div></div>
+      <div>
+        <div class="kicker">Decision Flow</div>
+        <h2>결제 한 번이,<br>세 갈래로 갈린다</h2>
+        <p class="lead">기준 금액과 위험 신호, 단 두 가지 기준으로 사용자의 자유와 가족의 안전을 나눈다.</p>
+      </div>
+      <div class="flow">
+        <div class="step"><div class="n">1</div><h3>소액 결제</h3><p>기준 금액 이하는 즉시 승인. 시니어의 자율성을 해치지 않는다.</p></div>
+        <div class="step"><div class="n">2</div><h3>고액 결제</h3><p>기준 금액을 넘으면 자녀에게 승인 요청을 보낸다.</p></div>
+        <div class="step"><div class="n">3</div><h3>위험 신호</h3><p>의심 문구, 이상 패턴, 고위험 수취인은 가족 확인을 우선한다.</p></div>
+      </div>
+    </div>
+    <div class="foot"><span>Interactive Flow</span><span>08 / 15</span></div>
+  </section>
+
+  <section class="slide" id="fraud">
+    <div class="section">
+      <div class="top"><div class="brand"><span class="mark">!</span> Fraud Scenario</div><div class="tag">버튼 또는 다음 단계로 시연</div></div>
+      <div>
+        <div class="kicker">Live Demo</div>
+        <h2>"검찰입니다. 지금 계좌가 위험합니다."</h2>
+      </div>
+      <div class="demo">
+        <div class="alert">
+          <div class="tag">자녀에게 도착한 승인 요청</div>
+          <div class="amount">2,000,000원</div>
+          <div class="meta">수취인: 신규 계좌 · 메모: 계좌 보호비 · 위험 문구 감지</div>
+          <div class="actions"><button id="rejectBtn">거절</button><button class="ok">승인</button></div>
+        </div>
+        <div class="status" id="status">
+          <div class="badge">확인 대기</div>
+          <div class="msg">자녀 확인 중입니다</div>
+          <div class="submsg">시니어 화면에는 중립적인 안내만 보여준다.</div>
+        </div>
+      </div>
+    </div>
+    <div class="foot"><span>Fraud Scenario</span><span>09 / 15</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="section">
+      <div class="top"><div class="brand"><span class="mark">UX</span> Experience</div><div class="tag">같은 결제, 다른 결말</div></div>
+      <div class="content">
+        <div>
+          <div class="kicker">Respectful UX</div>
+          <h2>거절되어도<br>부모의 화면은<br>상처 주지 않는다</h2>
+          <p class="lead">"거래가 처리되지 않았어요"처럼 중립적인 문구로 안내해 가족 갈등을 줄인다.</p>
+        </div>
+        <div class="cards">
+          <div class="card"><div class="icon">✓</div><h3>자녀 화면</h3><p>거절 사유와 위험 신호를 정확히 보여준다.</p></div>
+          <div class="card"><div class="icon">•</div><h3>부모 화면</h3><p>실패 안내는 부드럽게, 자존감은 그대로 둔다.</p></div>
+        </div>
+      </div>
+    </div>
+    <div class="foot"><span>Experience</span><span>10 / 15</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="section">
+      <div class="top"><div class="brand"><span class="mark">5</span> Product</div><div class="tag">안심을 만드는 기능</div></div>
+      <div>
+        <div class="kicker">Key Features</div>
+        <h2>안심을 만드는 다섯 가지</h2>
+      </div>
+      <div class="features">
+        <div class="feature"><b>기준 금액</b><span>가구별로 승인 기준을 다르게 설정</span></div>
+        <div class="feature"><b>가족 승인</b><span>고액 거래만 자녀 확인으로 연결</span></div>
+        <div class="feature"><b>위험 탐지</b><span>보이스피싱 의심 패턴 감지</span></div>
+        <div class="feature"><b>중립 안내</b><span>부모의 감정을 보호하는 화면</span></div>
+        <div class="feature"><b>리포트</b><span>월별 안심 거래와 차단 내역 요약</span></div>
+      </div>
+    </div>
+    <div class="foot"><span>Product</span><span>11 / 15</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="section">
+      <div class="top"><div class="brand"><span class="mark">₩</span> Business</div><div class="tag">세 개의 수익 기둥</div></div>
+      <div>
+        <div class="kicker">Revenue Model</div>
+        <h2>B2C 신뢰에서<br>B2B 가족 승인 API로 확장한다</h2>
+      </div>
+      <div class="revenue">
+        <div class="pillar"><h3>가족 구독</h3><div class="price">월 4,900원</div><p>기준 금액, 승인 알림, 월간 리포트 중심의 기본 모델.</p></div>
+        <div class="pillar"><h3>금융사 제휴</h3><div class="price">API</div><p>고령 고객 보호가 필요한 카드사·은행에 승인 모듈 제공.</p></div>
+        <div class="pillar"><h3>안심 리포트</h3><div class="price">Plus</div><p>피싱 시도, 고액 거래, 가족 응답 데이터를 요약.</p></div>
+      </div>
+    </div>
+    <div class="foot"><span>Business</span><span>12 / 15</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="section">
+      <div class="top"><div class="brand"><span class="mark">M</span> Milestone</div><div class="tag">가설에서 계약까지</div></div>
+      <div>
+        <div class="kicker">Roadmap</div>
+        <h2>작게 검증하고,<br>빠르게 제휴한다</h2>
+      </div>
+      <div class="timeline">
+        <div class="time"><b>1단계</b><h3>MVP</h3><p>50가구 대상 기준금액 승인 흐름 검증.</p></div>
+        <div class="time"><b>2단계</b><h3>파일럿</h3><p>복지관·시니어센터와 사용자 테스트.</p></div>
+        <div class="time"><b>3단계</b><h3>제휴</h3><p>카드사·은행 API 연동 논의.</p></div>
+        <div class="time"><b>4단계</b><h3>런칭</h3><p>1,000 활성 가구와 유료 전환 검증.</p></div>
+      </div>
+    </div>
+    <div class="foot"><span>Milestone</span><span>13 / 15</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="section">
+      <div class="top"><div class="brand"><span class="mark">K</span> KPI</div><div class="tag">무엇으로 성공을 말할까</div></div>
+      <div>
+        <div class="kicker">Validation</div>
+        <h2>안심은 숫자로도<br>증명되어야 한다</h2>
+      </div>
       <div class="kpis">
-        <div class="kpi"><div><div class="k">의심 거래 차단율</div><div class="sub">임계값 이상 거래 중 자녀 거절로 막힌 비율</div></div><div class="v2">90%</div></div>
-        <div class="kpi"><div><div class="k">승인 응답 시간</div><div class="sub">자녀 알림 수신 → 승인·거절까지</div></div><div class="v2">&lt; 30초</div></div>
-        <div class="kpi"><div><div class="k">NPS · 순추천지수</div><div class="sub">시니어 + 자녀 양쪽 만족도</div></div><div class="v2">&gt; 60</div></div>
-        <div class="kpi" style="border:none"><div><div class="k">활성 가구 (v1.0)</div><div class="sub">MVP 50가구 → 정식 런칭</div></div><div class="v2">1,000</div></div>
+        <div class="kpi"><div><b>의심 거래 차단율</b><span>임계값 이상 거래 중 자녀 거절로 막힌 비율</span></div><strong>90%</strong></div>
+        <div class="kpi"><div><b>승인 응답 시간</b><span>자녀 알림 수신부터 승인·거절까지</span></div><strong>&lt;30초</strong></div>
+        <div class="kpi"><div><b>NPS</b><span>시니어와 자녀 양쪽 만족도</span></div><strong>&gt;60</strong></div>
+        <div class="kpi"><div><b>활성 가구</b><span>MVP 50가구에서 정식 런칭까지</span></div><strong>1,000</strong></div>
       </div>
     </div>
-    <div class="foot"><span>효돈 Hyo-Don</span><span><b>13</b> / 15</span></div>
+    <div class="foot"><span>KPI</span><span>14 / 15</span></div>
   </section>
 
-  <!-- 14 ONE LINE -->
-  <section class="slide turn">
-    <div class="small">In one line</div>
-    <div class="big">효돈은 돈을 관리하는 앱이 아니라,<br><span class="u">가족이 서로를 믿게 만드는 방식</span>이다.</div>
-  </section>
-
-  <!-- 15 CLOSING -->
-  <section class="slide end">
-    <div>
-      <div class="rule"></div>
-      <h1>감사합니다.</h1>
-      <div class="sub">소액은 자유롭게, 고액은 가족이, 위험은 함께.</div>
+  <section class="slide blue">
+    <div class="center-message">
+      <div>
+        <div class="kicker">One Line</div>
+        <h2>효돈은 돈을 관리하는 앱이 아니라,<br>가족이 서로를 믿게 만드는 방식이다.</h2>
+        <p class="lead">소액은 자유롭게, 고액은 가족이, 위험은 함께.</p>
+      </div>
     </div>
-    <div class="meta">효돈 HYO-DON · Team 허준표 · 이서영 · 문수호 · 2026</div>
+    <div class="foot"><span>Thank you</span><span>15 / 15</span></div>
   </section>
 
-</div>
-
-<div id="hud">← → / Space</div>
-<div class="nav"><button id="prev">‹</button><button id="next">›</button></div>
+</main>
+<div id="hud">1 / 15</div>
+<div class="nav"><button id="prev" aria-label="Previous">‹</button><button id="next" aria-label="Next">›</button></div>
 
 <script>
 const slides=[...document.querySelectorAll('.slide')];
-let i=0;
+const initialSlide = Math.min(Math.max(Number(new URLSearchParams(location.search).get('slide') || 1), 1), slides.length) - 1;
+let i=initialSlide;
+let flowStep=0;
+let fraudDone=false;
 const bar=document.getElementById('bar');
 const hud=document.getElementById('hud');
 
+function resetSlideState(){
+  flowStep=0;
+  document.querySelectorAll('#flow .step').forEach(s=>s.classList.remove('show'));
+  fraudDone=false;
+  const status=document.getElementById('status');
+  if(status){
+    status.className='status';
+    status.innerHTML='<div class="badge">확인 대기</div><div class="msg">자녀 확인 중입니다</div><div class="submsg">시니어 화면에는 중립적인 안내만 보여준다.</div>';
+  }
+}
 function render(){
   slides.forEach((s,n)=>s.classList.toggle('active',n===i));
-  bar.style.width=((i)/(slides.length-1)*100)+'%';
+  bar.style.width=(i/(slides.length-1)*100)+'%';
   hud.textContent=(i+1)+' / '+slides.length;
-  resetMech(); resetFraud();
-  // auto-run fraud sequence shortly after landing
-  if(slides[i].id==='fraud') setTimeout(()=>{}, 50);
+  resetSlideState();
 }
-
-/* slide 7: staggered branch reveal */
-let mechStep=0;
-const mechCards=()=>[...document.querySelectorAll('#mech .bcard')];
-function resetMech(){mechStep=0;mechCards().forEach(c=>c.classList.remove('show'));}
-function advanceMech(){
-  const cards=mechCards();
-  if(mechStep<cards.length){cards[mechStep].classList.add('show');mechStep++;return true;}
+function advanceFlow(){
+  const steps=[...document.querySelectorAll('#flow .step')];
+  if(flowStep<steps.length){
+    steps[flowStep].classList.add('show');
+    flowStep++;
+    return true;
+  }
   return false;
-}
-
-/* slide 8: fraud reject animation */
-let fraudDone=false;
-function resetFraud(){
-  fraudDone=false;
-  const st=document.getElementById('srStatus');
-  const fn=document.getElementById('fnote');
-  const ac=document.querySelector('#fraud .alertcard');
-  if(st){st.className='statusbox waiting';st.innerHTML='자녀 확인 중입니다.<br>잠시만 기다려주세요.';}
-  if(fn){fn.innerHTML='→ 자녀가 <b>[거절]</b>을 누르는 순간, 200만 원이 지켜진다';}
-  if(ac){ac.style.opacity='1';ac.style.transform='none';}
 }
 function runFraud(){
   if(fraudDone) return false;
   fraudDone=true;
-  const st=document.getElementById('srStatus');
-  const fn=document.getElementById('fnote');
-  const ac=document.querySelector('#fraud .alertcard');
+  const status=document.getElementById('status');
   const btn=document.getElementById('rejectBtn');
-  if(btn){btn.style.transform='scale(.92)';btn.style.transition='transform .15s';}
-  setTimeout(()=>{if(btn)btn.style.transform='';},180);
+  if(btn){btn.style.transform='scale(.94)';setTimeout(()=>btn.style.transform='',180)}
   setTimeout(()=>{
-    if(st){st.className='statusbox declined';st.innerHTML='거래가 처리되지 않았어요.';}
-    if(ac){ac.style.transition='all .5s';ac.style.opacity='.35';ac.style.transform='scale(.97)';}
-    if(fn){fn.innerHTML='<b style="color:#fff">200만 원, 가족이 지켜냈습니다.</b>';}
-  },420);
+    status.className='status declined';
+    status.innerHTML='<div class="badge">거절 완료</div><div class="msg">거래가 처리되지 않았어요</div><div class="submsg">200만원 이체가 가족 확인으로 차단되었습니다.</div>';
+  },260);
   return true;
 }
-
 function next(){
-  // intercept in-slide animation steps first
-  if(slides[i].id==='mech' && advanceMech()) return;
+  if(slides[i].id==='flow' && advanceFlow()) return;
   if(slides[i].id==='fraud' && runFraud()) return;
   if(i<slides.length-1){i++;render();}
 }
-function prev(){ if(i>0){i--;render();} }
-
+function prev(){if(i>0){i--;render();}}
 document.addEventListener('keydown',e=>{
   if(['ArrowRight',' ','PageDown'].includes(e.key)){e.preventDefault();next();}
-  else if(['ArrowLeft','PageUp'].includes(e.key)){e.preventDefault();prev();}
-  else if(e.key==='Home'){i=0;render();}
-  else if(e.key==='End'){i=slides.length-1;render();}
-  else if(e.key.toLowerCase()==='f'){
-    if(!document.fullscreenElement)document.documentElement.requestFullscreen();
+  if(['ArrowLeft','PageUp'].includes(e.key)){e.preventDefault();prev();}
+  if(e.key==='Home'){i=0;render();}
+  if(e.key==='End'){i=slides.length-1;render();}
+  if(e.key.toLowerCase()==='f'){
+    if(!document.fullscreenElement) document.documentElement.requestFullscreen();
     else document.exitFullscreen();
   }
 });
 document.getElementById('next').onclick=next;
 document.getElementById('prev').onclick=prev;
-// click anywhere (not on nav) advances
-document.getElementById('deck').addEventListener('click',e=>{ if(!e.target.closest('.nav')) next(); });
-
+document.getElementById('rejectBtn').onclick=runFraud;
+document.getElementById('deck').addEventListener('click',e=>{if(!e.target.closest('.nav')&&!e.target.closest('button')) next();});
 render();
 </script>
 </body>
