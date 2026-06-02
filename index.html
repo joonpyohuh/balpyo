@@ -55,7 +55,9 @@ button{font:inherit}
 }
 .top{display:flex;justify-content:space-between;align-items:center;gap:2vw}
 .brand{display:flex;align-items:center;gap:10px;font-weight:900;color:var(--blue);letter-spacing:-.02em}
-.brand .mark{display:grid;place-items:center;width:36px;height:36px;border-radius:12px;background:var(--blue);color:white;box-shadow:0 12px 28px rgba(0,100,255,.25)}
+.brand .mark{display:grid;place-items:center;width:36px;height:36px;border-radius:12px;background:var(--blue);color:white;box-shadow:0 12px 28px rgba(0,100,255,.25);overflow:hidden}
+.brand .logo-mark{background:white;padding:2px}
+.brand .logo-mark img{width:100%;height:100%;object-fit:cover;border-radius:10px;display:block}
 .blue .brand,.dim .brand{color:white}.blue .brand .mark,.dim .brand .mark{background:white;color:var(--blue)}
 .tag{font-size:14px;font-weight:800;color:var(--muted)}
 .blue .tag,.dim .tag{color:rgba(255,255,255,.76)}
@@ -71,6 +73,11 @@ h2{font-size:clamp(34px,4.7vw,74px);line-height:1.08;font-weight:900;letter-spac
 .blue .lead,.dim .lead{color:rgba(255,255,255,.9)}
 .hl{color:var(--blue);white-space:nowrap}.hot{color:var(--hot);white-space:nowrap}.blue .hl,.dim .hl{color:white}.blue .hot,.dim .hot{color:#ffe66d}
 .screen-area{position:relative;min-height:520px}
+.logo-badge{
+  position:absolute;right:25vw;top:18px;width:132px;height:132px;border-radius:32px;background:white;padding:8px;
+  box-shadow:0 28px 70px -28px rgba(0,60,160,.55);transform:rotate(-7deg);z-index:4;
+}
+.logo-badge img{width:100%;height:100%;object-fit:cover;border-radius:24px;display:block}
 .phone{
   position:absolute;width:250px;height:510px;border:12px solid #111827;border-radius:42px;background:#fff;
   box-shadow:0 34px 70px -28px rgba(0,37,92,.6);overflow:hidden;
@@ -134,7 +141,7 @@ h2{font-size:clamp(34px,4.7vw,74px);line-height:1.08;font-weight:900;letter-spac
 .browser-top{display:flex;gap:8px;align-items:center;height:34px;border-bottom:1px solid var(--line);margin-bottom:18px}
 .dot{width:10px;height:10px;border-radius:50%;background:#ff5f57}.dot:nth-child(2){background:#ffbd2e}.dot:nth-child(3){background:#28c840}
 .wire{border-radius:26px;background:linear-gradient(180deg,#f7fbff,#eef6ff);padding:28px;min-height:420px}
-.wire-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:28px}.wire-logo{width:48px;height:48px;border-radius:16px;background:var(--blue);color:white;display:grid;place-items:center;font-weight:900}.wire-pill{height:30px;width:112px;border-radius:999px;background:var(--blue3)}
+.wire-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:28px}.wire-logo{width:48px;height:48px;border-radius:16px;background:white;overflow:hidden;box-shadow:0 14px 28px -20px rgba(0,100,255,.6)}.wire-logo img{width:100%;height:100%;object-fit:cover;display:block}.wire-pill{height:30px;width:112px;border-radius:999px;background:var(--blue3)}
 .wire-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.wire-panel{height:128px;border-radius:24px;background:white;border:1px solid #dbeafe;padding:18px}.wire-line{height:14px;border-radius:999px;background:#cfe5ff;margin-bottom:14px}.wire-line.short{width:64%}.wire-line.blue-line{background:var(--blue)}
 .foot{position:absolute;left:7vw;right:7vw;bottom:3.2vh;display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:13px;font-weight:800}.blue .foot,.dim .foot{color:rgba(255,255,255,.68)}
 #bar{position:fixed;left:0;top:0;height:4px;background:linear-gradient(90deg,var(--blue),#7cc7ff);z-index:20;transition:width .35s ease}
@@ -155,7 +162,7 @@ h2{font-size:clamp(34px,4.7vw,74px);line-height:1.08;font-weight:900;letter-spac
 
   <section class="slide cover active">
     <div class="top">
-      <div class="brand"><span class="mark">효</span> Hyo-Don</div>
+      <div class="brand"><span class="mark logo-mark"><img src="assets/hyodon-logo.png" alt="효돈 로고"></span> Hyo-Don</div>
       <div class="tag">Interactive presentation · Toss style blue</div>
     </div>
     <div class="hero">
@@ -165,6 +172,7 @@ h2{font-size:clamp(34px,4.7vw,74px);line-height:1.08;font-weight:900;letter-spac
         <p class="lead">소액은 자유롭게, 고액은 가족이 함께 확인하는 <span class="hl">차등 승인 금융 안전망</span>.</p>
       </div>
       <div class="screen-area">
+        <div class="logo-badge"><img src="assets/hyodon-logo.png" alt="효돈 로고"></div>
         <div class="phone third"><div class="app"><div class="mini">오늘의 결제</div><div class="amt">42,000원</div><span class="chip">자동 승인</span></div></div>
         <div class="phone sub"><div class="app"><div class="mini">자녀 알림</div><div class="amt">2,000,000원</div><span class="chip">확인 필요</span></div></div>
         <div class="phone main"><div class="app"><div class="mini">Hyo-Don</div><div class="amt">가족이<br>함께 지키는<br>돈</div><span class="chip">기준금액 10만원</span></div></div>
@@ -254,6 +262,7 @@ h2{font-size:clamp(34px,4.7vw,74px);line-height:1.08;font-weight:900;letter-spac
         <p class="lead">자녀가 정해둔 기준 금액을 사이에 두고, 그 아래는 시니어가 자유롭게. 그 위는 가족이 함께 확인한다.</p>
       </div>
       <div class="screen-area">
+        <div class="logo-badge"><img src="assets/hyodon-logo.png" alt="효돈 로고"></div>
         <div class="phone main"><div class="app"><div class="mini">기준금액</div><div class="amt">100,000원</div><span class="chip">넘으면 가족 승인</span></div></div>
         <div class="phone sub"><div class="app"><div class="mini">안전 상태</div><div class="amt">자유 결제</div><span class="chip">10만원 이하</span></div></div>
       </div>
@@ -403,7 +412,7 @@ h2{font-size:clamp(34px,4.7vw,74px);line-height:1.08;font-weight:900;letter-spac
       <div class="browser-card" aria-label="효돈 데모 프로토타입 와이어프레임">
         <div class="browser-top"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
         <div class="wire">
-          <div class="wire-head"><div class="wire-logo">효</div><div class="wire-pill"></div></div>
+          <div class="wire-head"><div class="wire-logo"><img src="assets/hyodon-logo.png" alt="효돈 로고"></div><div class="wire-pill"></div></div>
           <div class="wire-grid">
             <div class="wire-panel"><div class="wire-line blue-line"></div><div class="wire-line"></div><div class="wire-line short"></div></div>
             <div class="wire-panel"><div class="wire-line"></div><div class="wire-line blue-line"></div><div class="wire-line short"></div></div>
