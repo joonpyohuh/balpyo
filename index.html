@@ -123,6 +123,19 @@ h2{font-size:clamp(34px,4.7vw,74px);line-height:1.08;font-weight:900;letter-spac
 .revenue{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}.pillar{border-radius:34px;background:white;padding:34px;box-shadow:var(--shadow);border:1px solid var(--line);min-height:330px}.pillar .price{font-size:44px;font-weight:900;color:var(--blue);margin:30px 0 10px}.pillar h3{font-size:28px;font-weight:900}.pillar p{font-size:17px;line-height:1.5;color:var(--muted);font-weight:700;margin-top:14px}
 .timeline{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}.time{border-radius:28px;background:white;padding:26px;border:1px solid var(--line);box-shadow:var(--shadow)}.time b{color:var(--blue);font-size:18px}.time h3{font-size:26px;margin-top:16px}.time p{margin-top:12px;font-size:16px;line-height:1.48;color:var(--muted);font-weight:700}
 .kpis{display:grid;grid-template-columns:repeat(2,1fr);gap:22px}.kpi{border-radius:28px;background:white;padding:28px;border:1px solid var(--line);box-shadow:var(--shadow);display:flex;justify-content:space-between;gap:24px;align-items:center}.kpi b{font-size:24px}.kpi span{display:block;margin-top:8px;font-size:15px;color:var(--muted);font-weight:700}.kpi strong{font-size:44px;color:var(--blue)}
+.demo-link{display:grid;grid-template-columns:1fr minmax(360px,44vw);gap:4vw;align-items:center;height:100%}
+.cta-row{display:flex;gap:14px;align-items:center;margin-top:34px;flex-wrap:wrap}
+.cta{
+  display:inline-flex;align-items:center;justify-content:center;min-height:58px;padding:0 24px;border-radius:18px;
+  background:white;color:var(--blue);font-weight:900;text-decoration:none;box-shadow:0 18px 46px -24px rgba(0,0,0,.5);
+}
+.ghost{background:rgba(255,255,255,.18);color:white;border:1px solid rgba(255,255,255,.28)}
+.browser-card{border-radius:34px;background:white;padding:18px;box-shadow:0 34px 90px -38px rgba(0,30,90,.65);transform:rotate(2deg)}
+.browser-top{display:flex;gap:8px;align-items:center;height:34px;border-bottom:1px solid var(--line);margin-bottom:18px}
+.dot{width:10px;height:10px;border-radius:50%;background:#ff5f57}.dot:nth-child(2){background:#ffbd2e}.dot:nth-child(3){background:#28c840}
+.wire{border-radius:26px;background:linear-gradient(180deg,#f7fbff,#eef6ff);padding:28px;min-height:420px}
+.wire-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:28px}.wire-logo{width:48px;height:48px;border-radius:16px;background:var(--blue);color:white;display:grid;place-items:center;font-weight:900}.wire-pill{height:30px;width:112px;border-radius:999px;background:var(--blue3)}
+.wire-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.wire-panel{height:128px;border-radius:24px;background:white;border:1px solid #dbeafe;padding:18px}.wire-line{height:14px;border-radius:999px;background:#cfe5ff;margin-bottom:14px}.wire-line.short{width:64%}.wire-line.blue-line{background:var(--blue)}
 .foot{position:absolute;left:7vw;right:7vw;bottom:3.2vh;display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:13px;font-weight:800}.blue .foot,.dim .foot{color:rgba(255,255,255,.68)}
 #bar{position:fixed;left:0;top:0;height:4px;background:linear-gradient(90deg,var(--blue),#7cc7ff);z-index:20;transition:width .35s ease}
 #hud{display:none}
@@ -130,7 +143,7 @@ h2{font-size:clamp(34px,4.7vw,74px);line-height:1.08;font-weight:900;letter-spac
 .blue + #hud,.dim + #hud{color:white}
 @media (max-width:900px){
   .slide{padding:4.8vh 5vw;overflow:auto}
-  html,body{overflow:auto}.hero,.content,.choice,.demo{grid-template-columns:1fr;height:auto}.screen-area{display:none}.cards,.features,.revenue,.timeline,.kpis,.flow{grid-template-columns:1fr}.foot,.nav,#hud{display:none}.slide{position:relative;min-height:100vh}
+  html,body{overflow:auto}.hero,.content,.choice,.demo,.demo-link{grid-template-columns:1fr;height:auto}.screen-area{display:none}.cards,.features,.revenue,.timeline,.kpis,.flow,.wire-grid{grid-template-columns:1fr}.foot,.nav,#hud{display:none}.slide{position:relative;min-height:100vh}
   .top{justify-content:flex-start}.tag{display:none}
   h1{font-size:56px}h2{font-size:38px}.lead{font-size:18px}.card{min-height:auto}
 }
@@ -157,7 +170,7 @@ h2{font-size:clamp(34px,4.7vw,74px);line-height:1.08;font-weight:900;letter-spac
         <div class="phone main"><div class="app"><div class="mini">Hyo-Don</div><div class="amt">가족이<br>함께 지키는<br>돈</div><span class="chip">기준금액 10만원</span></div></div>
       </div>
     </div>
-    <div class="foot"><span>Team 효돈</span><span>01 / 15</span></div>
+    <div class="foot"><span>Team 효돈</span><span>01 / 16</span></div>
   </section>
 
   <section class="slide blue">
@@ -174,7 +187,7 @@ h2{font-size:clamp(34px,4.7vw,74px);line-height:1.08;font-weight:900;letter-spac
         </div>
       </div>
     </div>
-    <div class="foot"><span>Problem</span><span>02 / 15</span></div>
+    <div class="foot"><span>Problem</span><span>02 / 16</span></div>
   </section>
 
   <section class="slide">
@@ -200,14 +213,14 @@ h2{font-size:clamp(34px,4.7vw,74px);line-height:1.08;font-weight:900;letter-spac
         </div>
       </div>
     </div>
-    <div class="foot"><span>Research</span><span>03 / 15</span></div>
+    <div class="foot"><span>Research</span><span>03 / 16</span></div>
   </section>
 
   <section class="slide dim">
     <div class="center-message">
       <h2>관리하면 자존감이 상하고,<br>놔두면 사기가 두렵다</h2>
     </div>
-    <div class="foot"><span>Insight</span><span>04 / 15</span></div>
+    <div class="foot"><span>Insight</span><span>04 / 16</span></div>
   </section>
 
   <section class="slide">
@@ -217,7 +230,7 @@ h2{font-size:clamp(34px,4.7vw,74px);line-height:1.08;font-weight:900;letter-spac
         <h2>전부 알림도, 전부 차단도 아니라면<br><span class="hl">금액을 기준으로 권한을 나누면</span> 어떨까?</h2>
       </div>
     </div>
-    <div class="foot"><span>Question</span><span>05 / 15</span></div>
+    <div class="foot"><span>Question</span><span>05 / 16</span></div>
   </section>
 
   <section class="slide">
@@ -230,7 +243,7 @@ h2{font-size:clamp(34px,4.7vw,74px);line-height:1.08;font-weight:900;letter-spac
       </div>
       <p class="lead">두 사람이 원하는 건 하나다. <span class="hl">큰 돈에서만 만나고, 나머지는 각자 자유롭게.</span></p>
     </div>
-    <div class="foot"><span>User Fit</span><span>06 / 15</span></div>
+    <div class="foot"><span>User Fit</span><span>06 / 16</span></div>
   </section>
 
   <section class="slide blue">
@@ -245,7 +258,7 @@ h2{font-size:clamp(34px,4.7vw,74px);line-height:1.08;font-weight:900;letter-spac
         <div class="phone sub"><div class="app"><div class="mini">안전 상태</div><div class="amt">자유 결제</div><span class="chip">10만원 이하</span></div></div>
       </div>
     </div>
-    <div class="foot"><span>Solution</span><span>07 / 15</span></div>
+    <div class="foot"><span>Solution</span><span>07 / 16</span></div>
   </section>
 
   <section class="slide" id="flow">
@@ -262,7 +275,7 @@ h2{font-size:clamp(34px,4.7vw,74px);line-height:1.08;font-weight:900;letter-spac
         <div class="step"><div class="n">3</div><h3>위험 신호</h3><p>의심 문구, 이상 패턴, 고위험 수취인은 가족 확인을 우선한다.</p></div>
       </div>
     </div>
-    <div class="foot"><span>Interactive Flow</span><span>08 / 15</span></div>
+    <div class="foot"><span>Interactive Flow</span><span>08 / 16</span></div>
   </section>
 
   <section class="slide" id="fraud">
@@ -286,7 +299,7 @@ h2{font-size:clamp(34px,4.7vw,74px);line-height:1.08;font-weight:900;letter-spac
         </div>
       </div>
     </div>
-    <div class="foot"><span>Fraud Scenario</span><span>09 / 15</span></div>
+    <div class="foot"><span>Fraud Scenario</span><span>09 / 16</span></div>
   </section>
 
   <section class="slide">
@@ -304,7 +317,7 @@ h2{font-size:clamp(34px,4.7vw,74px);line-height:1.08;font-weight:900;letter-spac
         </div>
       </div>
     </div>
-    <div class="foot"><span>Experience</span><span>10 / 15</span></div>
+    <div class="foot"><span>Experience</span><span>10 / 16</span></div>
   </section>
 
   <section class="slide">
@@ -322,7 +335,7 @@ h2{font-size:clamp(34px,4.7vw,74px);line-height:1.08;font-weight:900;letter-spac
         <div class="feature"><b>리포트</b><span>월별 안심 거래와 차단 내역 요약</span></div>
       </div>
     </div>
-    <div class="foot"><span>Product</span><span>11 / 15</span></div>
+    <div class="foot"><span>Product</span><span>11 / 16</span></div>
   </section>
 
   <section class="slide">
@@ -338,7 +351,7 @@ h2{font-size:clamp(34px,4.7vw,74px);line-height:1.08;font-weight:900;letter-spac
         <div class="pillar"><h3>안심 리포트</h3><div class="price">Plus</div><p>피싱 시도, 고액 거래, 가족 응답 데이터를 요약.</p></div>
       </div>
     </div>
-    <div class="foot"><span>Business</span><span>12 / 15</span></div>
+    <div class="foot"><span>Business</span><span>12 / 16</span></div>
   </section>
 
   <section class="slide">
@@ -355,7 +368,7 @@ h2{font-size:clamp(34px,4.7vw,74px);line-height:1.08;font-weight:900;letter-spac
         <div class="time"><b>4단계</b><h3>런칭</h3><p>1,000 활성 가구와 유료 전환 검증.</p></div>
       </div>
     </div>
-    <div class="foot"><span>Milestone</span><span>13 / 15</span></div>
+    <div class="foot"><span>Milestone</span><span>13 / 16</span></div>
   </section>
 
   <section class="slide">
@@ -372,7 +385,35 @@ h2{font-size:clamp(34px,4.7vw,74px);line-height:1.08;font-weight:900;letter-spac
         <div class="kpi"><div><b>활성 가구</b><span>MVP 50가구에서 정식 런칭까지</span></div><strong>1,000</strong></div>
       </div>
     </div>
-    <div class="foot"><span>KPI</span><span>14 / 15</span></div>
+    <div class="foot"><span>KPI</span><span>14 / 16</span></div>
+  </section>
+
+  <section class="slide blue" id="demoRoute">
+    <div class="top"><div class="brand"><span class="mark">▶</span> Demo Prototype</div><div class="tag">발표 중 D 키로 바로 열기</div></div>
+    <div class="demo-link">
+      <div class="copy">
+        <div class="kicker">Prototype Route</div>
+        <h2>이제 실제 효돈<br>데모 프로토타입으로<br>들어갑니다</h2>
+        <p class="lead">앞에서 설명한 기준 금액, 가족 승인, 위험 거래 차단 흐름을 실제 화면에서 확인하는 구간입니다.</p>
+        <div class="cta-row">
+          <a class="cta" href="https://hyodon-lnlp64juj-joonpyohuhs-projects.vercel.app/" target="_blank" rel="noopener">데모 프로토타입 열기</a>
+          <a class="cta ghost" href="https://hyodon-lnlp64juj-joonpyohuhs-projects.vercel.app/" target="_blank" rel="noopener">D 단축키</a>
+        </div>
+      </div>
+      <div class="browser-card" aria-label="효돈 데모 프로토타입 와이어프레임">
+        <div class="browser-top"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+        <div class="wire">
+          <div class="wire-head"><div class="wire-logo">효</div><div class="wire-pill"></div></div>
+          <div class="wire-grid">
+            <div class="wire-panel"><div class="wire-line blue-line"></div><div class="wire-line"></div><div class="wire-line short"></div></div>
+            <div class="wire-panel"><div class="wire-line"></div><div class="wire-line blue-line"></div><div class="wire-line short"></div></div>
+            <div class="wire-panel"><div class="wire-line"></div><div class="wire-line short"></div></div>
+            <div class="wire-panel"><div class="wire-line blue-line"></div><div class="wire-line"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="foot"><span>Demo Prototype</span><span>15 / 16</span></div>
   </section>
 
   <section class="slide blue">
@@ -383,11 +424,11 @@ h2{font-size:clamp(34px,4.7vw,74px);line-height:1.08;font-weight:900;letter-spac
         <p class="lead">소액은 자유롭게, 고액은 가족이, 위험은 함께.</p>
       </div>
     </div>
-    <div class="foot"><span>Thank you</span><span>15 / 15</span></div>
+    <div class="foot"><span>Thank you</span><span>16 / 16</span></div>
   </section>
 
 </main>
-<div id="hud">1 / 15</div>
+<div id="hud">1 / 16</div>
 <div class="nav"><button id="prev" aria-label="Previous">‹</button><button id="next" aria-label="Next">›</button></div>
 
 <script>
@@ -396,6 +437,7 @@ const initialSlide = Math.min(Math.max(Number(new URLSearchParams(location.searc
 let i=initialSlide;
 let flowStep=0;
 let fraudDone=false;
+const demoUrl='https://hyodon-lnlp64juj-joonpyohuhs-projects.vercel.app/';
 const bar=document.getElementById('bar');
 const hud=document.getElementById('hud');
 
@@ -447,6 +489,7 @@ document.addEventListener('keydown',e=>{
   if(['ArrowLeft','PageUp'].includes(e.key)){e.preventDefault();prev();}
   if(e.key==='Home'){i=0;render();}
   if(e.key==='End'){i=slides.length-1;render();}
+  if(e.key.toLowerCase()==='d'){window.open(demoUrl,'_blank','noopener');}
   if(e.key.toLowerCase()==='f'){
     if(!document.fullscreenElement) document.documentElement.requestFullscreen();
     else document.exitFullscreen();
